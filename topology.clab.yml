@@ -1,0 +1,11 @@
+name: bgp-lab
+topology:
+  nodes:
+    AS100:
+      kind: linux
+      image: frrouting/frr:v8.4.1
+    AS200:
+      kind: linux
+      image: frrouting/frr:v8.4.1
+  links:
+    - endpoints: ["AS100:eth1", "AS200:eth1"]

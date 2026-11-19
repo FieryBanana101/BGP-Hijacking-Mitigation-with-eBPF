@@ -4,8 +4,21 @@ topology:
     AS100:
       kind: linux
       image: frrouting/frr:v8.4.1
+      binds:
+        - configs/AS100/daemons:/etc/frr/daemons
+        - configs/AS100/frr.conf:/etc/frr/frr.conf
     AS200:
       kind: linux
       image: frrouting/frr:v8.4.1
+      binds:
+        - configs/AS200/daemons:/etc/frr/daemons
+        - configs/AS200/frr.conf:/etc/frr/frr.conf
+    AS300:
+      kind: linux
+      image: frrouting/frr:v8.4.1
+      binds:
+        - configs/AS300/daemons:/etc/frr/daemons
+        - configs/AS300/frr.conf:/etc/frr/frr.conf
   links:
     - endpoints: ["AS100:eth1", "AS200:eth1"]
+    - endpoints: ["AS300:eth1", "AS200:eth2"]

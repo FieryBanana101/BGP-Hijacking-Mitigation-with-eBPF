@@ -1,0 +1,35 @@
+[
+  {
+    "name": "sub_prefix_hijack_basic",
+    "description": "Rogue AS300 announces unauthorized more-specific /24 subnet of AS100's /16 prefix",
+    "attack_type": "sub_prefix_hijack",
+    "expected_attack_detected": true,
+    "expected_target_prefix": "10.100.1.0/24",
+    "rogue_asn": 300,
+    "simulated_telemetry": "2026-10-29T22:01:00Z [CRITICAL] bgpd[1042]: BGP UPDATE from peer 203.0.113.2 (AS300). Rogue AS300 is advertising unauthorized sub-prefix 10.100.1.0/24. Valid parent prefix 10.100.0.0/16 belongs to legitimate AS100. Sub-prefix hijack detected!",
+    "live_route_command": "vtysh -c 'conf t\nrouter bgp 300\naddress-family ipv4 unicast\nnetwork 10.100.1.0/24\nexit\nend'",
+    "live_withdraw_command": "vtysh -c 'conf t\nrouter bgp 300\naddress-family ipv4 unicast\nno network 10.100.1.0/24\nexit\nend'"
+  },
+  {
+    "name": "origin_hijack_unauthorized_prefix",
+    "description": "Rogue AS300 announces unauthorized prefix 192.0.2.0/24 without ROA authorization",
+    "attack_type": "origin_hijack",
+    "expected_attack_detected": true,
+    "expected_target_prefix": "192.0.2.0/24",
+    "rogue_asn": 300,
+    "simulated_telemetry": "2026-10-29T22:05:15Z [CRITICAL] bmpd[2011]: BGP UPDATE from peer 203.0.113.2 (AS300). Origin hijack detected! Rogue AS300 is advertising unauthorized prefix 192.0.2.0/24 with no valid ROA. Malicious ingress traffic detected.",
+    "live_route_command": "vtysh -c 'conf t\nrouter bgp 300\naddress-family ipv4 unicast\nnetwork 192.0.2.0/24\nexit\nend'",
+    "live_withdraw_command": "vtysh -c 'conf t\nrouter bgp 300\naddress-family ipv4 unicast\nno network 192.0.2.0/24\nexit\nend'"
+  },
+  {
+    "name": "normal_traffic",
+    "description": "Legitimate peer AS100 sends normal route update and keepalives (No Attack)",
+    "attack_type": "none",
+    "expected_attack_detected": false,
+    "expected_target_prefix": null,
+    "rogue_asn": null,
+    "simulated_telemetry": "2026-10-29T22:10:00Z [INFO] bgpd[1042]: BGP-6-ESTABLISHED: Peer 198.51.100.1 (AS100) session healthy. Route update received: Prefix 10.100.0.0/16 via 198.51.100.1 - Path valid and matches ROA policy.",
+    "live_route_command": null,
+    "live_withdraw_command": null
+  }
+]

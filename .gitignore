@@ -1,3 +1,4 @@
 clab-bgp-lab/
 ebpf.c
 ebpf.o
+__pycache__/
